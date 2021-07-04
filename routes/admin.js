@@ -18,11 +18,11 @@ router.param("adminId", getAdminById);
 
 //create
 router.post(
-    "/admin/create",
+    "/admin/:adminId",
     [
         check("email", "email is required").isEmail(),
         check("password", "password field is required").isLength({ min: 1 }),
-        check("confirmPassword", "confirm password field is required").isLength({ min: 1 }),
+        check("confirmPassword", "confirm password field is required").isLength({ min: 6, max:8 }),
         check("firstName", "first name field is required").isLength({ min: 1 }),
         check("lastName", "last name field is required").isLength({ min: 1 }),
         check("department", "department field is required").isLength({ min: 1 }),

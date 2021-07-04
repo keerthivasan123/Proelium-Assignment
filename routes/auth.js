@@ -7,7 +7,7 @@ router.post(
   "/signin",
   [
     check("email", "email is required").isEmail(),
-    check("password", "password field is required").isLength({ min: 1 })
+    check("password", "password field is required").isLength({ min: 6, max: 8 })
   ],
   signin
 );
