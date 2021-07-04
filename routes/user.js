@@ -8,16 +8,18 @@ const {
   getUser,
   updateUser,
 } = require("../controllers/user");
+const { getInputUserById } = require("../controllers/admin");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 
 //params
 router.param("userId", getUserById);
+router.param("inputUserId", getInputUserById);
 
 //actual routers goes here
 
 //create
 router.post(
-  "/user/create",
+  "/user/:userId",
   [
     check("email", "email is required").isEmail(),
     check("password", "password field is required").isLength({ min: 1 }),
@@ -33,14 +35,14 @@ router.post(
 
 //read
 router.get(
-  "/user/:userId",
+  "/user/:userId/:inputUserId",
   isSignedIn,
   isAuthenticated,
   getUser);
 
 //update
 router.put(
-  "/user/:userId",
+  "/user/:userId/:inputUserId",
   isSignedIn,
   isAuthenticated,
   updateUser

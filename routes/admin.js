@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
     getAdminById,
+    getInputUserById,
     createAdmin,
     getAdmin,
     getAllAdmin,
@@ -13,6 +14,7 @@ const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 
 //params
 router.param("adminId", getAdminById);
+router.param("inputUserId", getInputUserById);
 
 //actual routers goes here
 
@@ -35,15 +37,16 @@ router.post(
 
 //read
 router.get(
-    "/admin/:adminId",
+    "/admin/:adminId/:inputUserId",
     isSignedIn,
     isAuthenticated,
-    isAdmin, getAdmin
+    isAdmin,
+    getAdmin
 );
 
 //update
 router.put(
-    "/admin/:adminId",
+    "/admin/:adminId/:inputUserId",
     isSignedIn,
     isAuthenticated,
     isAdmin,
