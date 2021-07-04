@@ -33,7 +33,8 @@ exports.createUser = async (req, res) => {
 };
 
 exports.getUser = (req, res) => {
-  return res.json(req.user);
+  delete req.inputUser.password;
+  return res.json(req.inputUser);
 };
 
 exports.getAllUser = (req, res) => {
@@ -48,7 +49,7 @@ exports.getAllUser = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
-  const user = req.user;
+  const user = req.inputUser;
   if(req.body.firstName)
     user.firstName = req.body.firstName;
   if(req.body.middleName)
@@ -61,6 +62,7 @@ exports.updateUser = (req, res) => {
     user.department = req.body.department;
     
   user.save((err, updatedUser) => {
+    delete updatedUser.password;
     if (err) {
       return res.status(400).json({
         error: "Failed to update user"
