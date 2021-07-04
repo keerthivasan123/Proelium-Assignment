@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { check, validationResult } = require("express-validator");
 
 const {
   getUserById,
@@ -17,6 +18,14 @@ router.param("userId", getUserById);
 //create
 router.post(
   "/user/create",
+  [
+    check("email", "email is required").isEmail(),
+    check("password", "password field is required").isLength({ min: 1 }),
+    check("confirmPassword", "confirm password field is required").isLength({ min: 1 }),
+    check("firstName", "first name field is required").isLength({ min: 1 }),
+    check("lastName", "last name field is required").isLength({ min: 1 }),
+    check("department", "department field is required").isLength({ min: 1 }),
+  ],
   isSignedIn,
   isAuthenticated,
   createUser

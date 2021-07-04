@@ -8,6 +8,7 @@ const {
     getAllAdmin,
     updateAdmin,
 } = require("../controllers/admin");
+const { check, validationResult } = require("express-validator");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 
 //params
@@ -24,7 +25,7 @@ router.post(
         check("confirmPassword", "confirm password field is required").isLength({ min: 1 }),
         check("firstName", "first name field is required").isLength({ min: 1 }),
         check("lastName", "last name field is required").isLength({ min: 1 }),
-        check("role", "role field is required").isLength({ min: 1 }),
+        check("department", "department field is required").isLength({ min: 1 }),
     ],
     isSignedIn,
     isAuthenticated,
