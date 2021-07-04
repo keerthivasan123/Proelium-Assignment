@@ -2,7 +2,7 @@ const Admin = require("../models/user");
 const bcrypt = require('bcrypt');
 
 exports.getAdminById = (req, res, next, id) => {
-  Admin.findById(id).select('-password').exec((err, user) => {
+  Admin.findById(id).exec((err, user) => {
     if (err) {
       return res.status(400).json({
         error: "Admin not found in DB"
@@ -34,6 +34,7 @@ exports.createAdmin = async (req, res) => {
 };
 
 exports.getAdmin = (req, res) => {
+  delete req.user.password;
   return res.json(req.user);
 };
 
