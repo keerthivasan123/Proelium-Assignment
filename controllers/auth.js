@@ -2,6 +2,7 @@ const User = require("../models/user");
 const { check, validationResult } = require("express-validator");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
+const bcrypt = require('bcrypt');
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
@@ -44,8 +45,8 @@ exports.signin = (req, res) => {
         error: "USER email does not exists"
       });
     }
-
-    if (user.password != password) {
+    
+    if (!bcrypt.compare(password, user.password)) {
       return res.status(401).json({
         error: "Email and password do not match"
       });
