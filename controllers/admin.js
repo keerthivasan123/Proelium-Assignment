@@ -13,6 +13,18 @@ exports.getAdminById = (req, res, next, id) => {
   });
 };
 
+exports.getInputUserById = (req, res, next, id) => {
+  Admin.findById(id).select('-password').exec((err, user) => {
+    if (err) {
+      return res.status(400).json({
+        error: "User not found in DB"
+      });
+    }
+    req.inputUser = user;
+    next();
+  });
+};
+
 exports.createAdmin = async (req, res) => {
   if(req.body.password !== req.body.confirmPassword){
     return res.status(400).json({
@@ -34,8 +46,8 @@ exports.createAdmin = async (req, res) => {
 };
 
 exports.getAdmin = (req, res) => {
-  delete req.user.password;
-  return res.json(req.user);
+  delete req.inputUser.password;
+  return res.json(req.inputUser);
 };
 
 exports.getAllAdmin = (req, res) => {
@@ -50,7 +62,7 @@ exports.getAllAdmin = (req, res) => {
 };
 
 exports.updateAdmin = (req, res) => {
-  const user = req.user;
+  const user = req.inputUser;
   if(req.body.firstName)
     user.firstName = req.body.firstName;
   if(req.body.middleName)
